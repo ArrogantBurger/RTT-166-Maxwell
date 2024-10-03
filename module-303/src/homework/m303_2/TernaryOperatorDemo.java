@@ -1,4 +1,4 @@
-package org.demos;
+package homework.m303_2;
 
 public class TernaryOperatorDemo {
     public static void main(String[] args) {
