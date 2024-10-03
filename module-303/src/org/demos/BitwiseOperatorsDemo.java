@@ -1,3 +1,5 @@
+package org.demos;
+
 public class BitwiseOperatorsDemo {
     public static void main(String[] args)
     {

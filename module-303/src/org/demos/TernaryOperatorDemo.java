@@ -1,3 +1,5 @@
+package org.demos;
+
 public class TernaryOperatorDemo {
     public static void main(String[] args) {
         int age = 18;

@@ -1,3 +1,5 @@
+package org.demos;
+
 public class AssignmentOperatorsDemo {
     public static void main(String args[]) {
         //   Assigning Primitive Values
