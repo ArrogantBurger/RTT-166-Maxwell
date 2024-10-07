@@ -1,4 +1,4 @@
-package org.perscholas;
+package org.perscholas.m_303_3;
 
 import java.util.StringJoiner;
 

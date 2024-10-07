@@ -1,4 +1,4 @@
-package homework.m303_2;
+package labs.l_303_2_1;
 
 public class ArithmeticOperatorsDemo {
 
