@@ -15,6 +15,7 @@ public class CoffeeShop {
 
     private List<Product> cart = new ArrayList<>();
 
+    // used to format money to two decimal places
     private DecimalFormat d = new DecimalFormat("'$'0.00");
 
     private void initProducts() {
@@ -67,6 +68,7 @@ public class CoffeeShop {
         // display items for sale
         printProductMenu();
 
+        // Accepts product type
         System.out.print("Enter product number: ");
         int selection = scanner.nextInt();
         scanner.nextLine();
@@ -74,6 +76,7 @@ public class CoffeeShop {
         if (selection >= 1 && selection <= products.size()){
             Product p = products.get(selection - 1);
 
+            // Accepts product quantity
             System.out.print("Enter quantity: ");
             int quantity = scanner.nextInt();
             scanner.nextLine();
@@ -97,7 +100,7 @@ public class CoffeeShop {
                 cart.add(p);
             }
 
-
+            // Info message showing item added to cart along with the current quantity
             System.out.println("Added " + p.getName() + " to your cart.\n");
             System.out.println("Currently have " + p.getQuantity() + " " + p.getName() + " in your cart.\n");
         } else {
@@ -114,12 +117,11 @@ public class CoffeeShop {
         // list the items in the cart
         for (Product item : cart) {
             System.out.print(item.getName());
+            // creates even spacing in the terminal
             for (int i = 0; i < (6 - item.getName().length() / 4); i++) {
                 System.out.print("\t");
             }
             System.out.print("x" + item.getQuantity() + "\t" + d.format(item.getPrice() * item.getQuantity()));
-            //System.out.print("x" + item.getQuantity() +  "\t $" + (item.getPrice() * item.getQuantity()));
-            //System.out.print(item.getName() + "\tx" + item.getQuantity() +  "\t $" + (item.getPrice() * item.getQuantity()));
             System.out.print("\n");
             subtotal += item.getPrice() * item.getQuantity();
         }
