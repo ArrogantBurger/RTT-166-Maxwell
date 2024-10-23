@@ -1,9 +1,10 @@
 package coffee_shop;
 
+import org.w3c.dom.ls.LSOutput;
+
+import java.sql.SQLOutput;
 import java.text.DecimalFormat;
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class CoffeeShop {
 
@@ -31,6 +32,30 @@ public class CoffeeShop {
         Product p4 = new Product("Egg Sandwich", 6.49, 0);
         products.add(p4);
 
+        sortByPrice(products);
+    }
+
+    // use a bubble sort algo
+    // sort the list of products by price using 2 nested for loops to implement the bubble sort in a function
+    // should create a function that will take in a List<Product> to be sorted and return a sorted List<Product>
+    private List<Product> sortByPrice(List<Product> source) {
+        // convert the List to an array
+        Product temp;
+
+        for (int outer = 0; outer < source.size() - 1; outer++) {
+            for (int inner = outer + 1; inner < source.size(); inner++) {
+                Product p0 = source.get(outer);
+                Product p1 = source.get(inner);
+
+                if (p0.getPrice() > p1.getPrice()) {
+                    source.set(inner, p0);
+                    source.set(outer, p1);
+                }
+            }
+        }
+
+        // products.forEach(p -> System.out.println(p));
+        return null;
     }
 
     private void printProductMenu() {
@@ -49,7 +74,14 @@ public class CoffeeShop {
         System.out.println("1) See product menu");
         System.out.println("2) Purchase product");
         System.out.println("3) Checkout");
-        System.out.println("4) Exit");
+        System.out.println("4) Search");
+        if (cart.size() > 0) {
+            System.out.println("5) Remove product");
+            System.out.println("6) Exit");
+        } else {
+            System.out.println("5) Exit");
+        }
+
 
         System.out.print("Enter selection: ");
 
@@ -57,7 +89,7 @@ public class CoffeeShop {
             int selection = scanner.nextInt();
             return selection;
         } catch (Exception e) {
-            System.out.println("Invalid selection" + e.getMessage());
+            //System.out.println("Invalid selection " + e.getMessage());
             return -1;
         } finally {
             scanner.nextLine();
@@ -73,7 +105,7 @@ public class CoffeeShop {
         int selection = scanner.nextInt();
         scanner.nextLine();
 
-        if (selection >= 1 && selection <= products.size()){
+        if (selection >= 1 && selection <= products.size()) {
             Product p = products.get(selection - 1);
 
             // Accepts product quantity
@@ -90,7 +122,7 @@ public class CoffeeShop {
 
             // Adds item to cart if no like item exists
             boolean itemFound = false;
-            for (Product item : cart){
+            for (Product item : cart) {
                 if (item.getName().equals(p.getName()) && !itemFound) {
                     itemFound = true;
                     break;
@@ -131,7 +163,38 @@ public class CoffeeShop {
         // calculate and add sales tax
         double tax = subtotal * 0.0825;
         System.out.println("Tax\t\t\t\t" + d.format(tax));
-        System.out.println("Total\t\t\t"+ d.format(subtotal + tax));
+        System.out.println("Total\t\t\t" + d.format(subtotal + tax));
+    }
+
+    public void productSearch() {
+        System.out.println("Enter a product name to search for: ");
+        String search = scanner.nextLine();
+
+        // this line of code filters the list of products based on if the search input is in the string
+        List<Product> results = products.stream().filter(p -> p.getName().toLowerCase().contains(search.toLowerCase())).toList();
+
+        // print the result list using a lambda
+        results.forEach(p -> System.out.println(p.getName()));
+    }
+
+    public void removeProductFromCart() {
+        //System.out.println("*cutely removes item from cart*");
+
+        for (Product item : cart) {
+            int j = 1;
+            System.out.print(j + ") " + item.getName());
+            j++;
+            // creates even spacing in the terminal
+            for (int i = 0; i < (6 - item.getName().length() / 4); i++) {
+                System.out.print("\t");
+            }
+            System.out.print("x" + item.getQuantity() + "\t" + d.format(item.getPrice() * item.getQuantity()));
+            System.out.print("\n");
+        }
+
+        System.out.println("Select an item to remove from the cart");
+
+
     }
 
     public void start() {
@@ -148,11 +211,20 @@ public class CoffeeShop {
                 // checkout
                 checkout();
             } else if (selection == 4) {
-                // exit
+                // search
+                productSearch();
+            } else if (selection == 5 && cart.size() > 0) {
+                // remove product ONLY if product has been purchased
+                // else exit
+                removeProductFromCart();
+            }
+            else if ((selection == 5 && cart.size() == 0) || (selection == 6 && cart.size() > 0)) {
+                // exit ONLY if product has been purchased
                 System.out.println("Goodbye!");
                 System.exit(0);
             } else {
-                System.out.println("Invalid selection entered " + selection + "\n");
+                //System.out.println("Invalid selection entered " + selection + "\n");
+                System.out.println("Invalid selection entered, please select valid number." + "\n");
             }
         }
 
