@@ -179,9 +179,9 @@ public class CoffeeShop {
 
     public void removeProductFromCart() {
         //System.out.println("*cutely removes item from cart*");
-
+        int j = 1;
         for (Product item : cart) {
-            int j = 1;
+
             System.out.print(j + ") " + item.getName());
             j++;
             // creates even spacing in the terminal
@@ -194,6 +194,16 @@ public class CoffeeShop {
 
         System.out.println("Select an item to remove from the cart");
 
+        int selection = scanner.nextInt();
+        scanner.nextLine();
+
+        if (selection >= 1 && selection <= cart.size()) {
+            String removed = cart.get(selection - 1).getName();
+            cart.remove(selection - 1);
+            System.out.println("Removed " + removed + " from your cart.\n");
+        } else {
+            System.out.println("Invalid item selection");
+        }
 
     }
 
