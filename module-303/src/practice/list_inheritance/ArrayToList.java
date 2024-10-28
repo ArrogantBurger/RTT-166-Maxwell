@@ -35,7 +35,7 @@ public class ArrayToList implements MyList{
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0; i < arrayToList.size(); i++) {
             //String name = arrayToList.get(i);
-            if (arrayToList.get(i).equals("")) {
+            if (!arrayToList.get(i).equals("")) {
                 result.add(arrayToList.get(i));
                 //System.out.println("Removed " + name + " at index: " + i);
             }
@@ -60,10 +60,6 @@ public class ArrayToList implements MyList{
         String[] array1 = {"Volvo", "BMW", "Ford", "Mazda", "Chrysler", "Pinto", "Nascar", "Toyota"};
         test.convert(array1);
         test.replace(2); // should remove ford
-        test.replace(2);
-        test.replace(2);
-        test.replace(2);
-        test.replace(2);
         test.compact();
 
         test.printList();

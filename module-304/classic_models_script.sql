@@ -1,6 +1,8 @@
 SELECT count(*) FROM offices;
 
 -- Transaction example, keywords of TRANSACTION are START, COMMIT, and ROLLBACK
+-- Changes made in a transaction are invisible to other users of the database until the COMMIT is invoked
+-- This guarantees atomicity of a database
 START TRANSACTION;
 DELETE FROM offices WHERE id = 11;
 SELECT * FROM offices;
@@ -16,7 +18,7 @@ SELECT * FROM offices;
 UPDATE offices SET phone = '+1 123 555 1212' WHERE phone = '555-1212' AND ID = '11';
 
 -- DELETE will affect the entire table if a WHERE clause is not invoked
-DELETE FROM offices WHERE id = '8';
+DELETE FROM offices WHERE id = '11';
 SELECT * FROM offices;
 
 
