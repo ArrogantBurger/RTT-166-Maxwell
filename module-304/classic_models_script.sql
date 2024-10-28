@@ -1,4 +1,24 @@
+SELECT count(*) FROM offices;
+
+-- Transaction example, keywords of TRANSACTION are START, COMMIT, and ROLLBACK
+START TRANSACTION;
+DELETE FROM offices WHERE id = 11;
 SELECT * FROM offices;
+ROLLBACK;
+COMMIT;
+
+-- INSERT INTO offices ( city, phone, address_line1, address_line2, state, country, postal_code, territory )
+-- 			VALUES ( 'Not Null', '555-1212', 'Downtown Denver', 'Address Line 2', 'CO', 'USA', '80203', 'USA' );
+SELECT * FROM offices;
+
+-- UPDATE will affect the entire table if a WHERE clause is not invoked
+-- always use a WHERE clause with the UPDATE
+UPDATE offices SET phone = '+1 123 555 1212' WHERE phone = '555-1212' AND ID = '11';
+
+-- DELETE will affect the entire table if a WHERE clause is not invoked
+DELETE FROM offices WHERE id = '8';
+SELECT * FROM offices;
+
 
 SELECT * FROM employees WHERE office_id = 4;
 
@@ -20,4 +40,4 @@ SELECT * FROM customers WHERE credit_limit > 10000 AND credit_limit < 50000;
 SELECT * FROM customers WHERE contact_firstname LIKE 'J%';
 
 -- I want to see the list of customers that work with an employee in the San Fran office
--- SELECT * FROM customers WHERE 
+-- SELECT * FROM customers WHERE employees.city = "San Francisco"
