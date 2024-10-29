@@ -1,4 +1,4 @@
-package practice.sport_inheritance;
+package test_files.sport_inheritance;
 
 public interface Sport {
     void calculateAvgAge(int[] age);

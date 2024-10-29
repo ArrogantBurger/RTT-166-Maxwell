@@ -1,4 +1,4 @@
-package practice.list_inheritance;
+package test_files.list_inheritance;
 
 import java.util.ArrayList;
 
