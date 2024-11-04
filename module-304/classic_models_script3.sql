@@ -58,3 +58,50 @@ SELECT * FROM orders WHERE customer_id IN (SELECT id FROM customers WHERE custom
 -- In this example, subquery introduces customer table with names that start with A
 SELECT * FROM orders ord, (SELECT id FROM customers WHERE customer_name LIKE 'A%') as c
 WHERE ord.customer_id = c.id;
+
+-- ================= JOINS ====================
+
+-- Example syntax: SELECT a.value, b.value FROM table_a a JOIN table_b b ON a.id = b.id
+-- Any values that don't satisfy the predicate when required are set to NULL
+
+-- LEFT JOIN Example
+-- All rows from first table included, rows from second table only included if the ON statement (predicate) is satisfied
+SELECT c.id as customer_id, c.customer_name, o.id as order_id, o.status
+FROM customers c
+LEFT JOIN orders o ON c.id = o.customer_id;
+
+-- RIGHT JOIN Example
+-- All rows from second table included, rows from first table only included if the ON statement (predicate) is satisfied
+SELECT c.id as customer_id, c.customer_name, o.id as order_id, o.status
+FROM customers c
+RIGHT JOIN orders o ON c.id = o.customer_id;
+
+-- INNER JOIN example
+-- Rows from either table are only included if they satisfy the predicate
+SELECT c.id as customer_id, c.customer_name, o.id as order_id, o.status
+FROM customers c
+INNER JOIN orders o ON c.id = o.customer_id
+ORDER BY c.id;
+
+-- Same query using standard WHERE, will return same results as the INNER JOIN
+SELECT c.id as customer_id, c.customer_name, o.id as order_id, o.status
+FROM customers c, orders o
+WHERE c.id = o.customer_id
+ORDER BY customer_id;
+
+-- SELF JOIN example
+-- When doing a SELF JOIN, the same table is used on either side. This can be used to analyze a hierarchical structure a single table
+-- In this example, we can map the management structure using the employees.report_to and employees.id
+SELECT e.id, e.lastname, e.firstname, e.job_title, m.id as manager_id, m.lastname as manager_lastname, m.firstname as manager_firstname, m.job_title
+FROM employees e, employees m
+WHERE e.reports_to = m.id;
+
+-- ==================== UNION ====================
+
+-- The UNION keyword takes two queries and combines the results into a single table
+-- UNION does not include duplicates after merging the query results, use UNION ALL to include duplicates
+-- Requirement is that the selection must include a like number of columns for both queries
+
+SELECT * FROM customers WHERE customer_name LIKE 'A%'
+UNION ALL
+SELECT * FROM customers WHERE customer_name LIKE 'B%';
