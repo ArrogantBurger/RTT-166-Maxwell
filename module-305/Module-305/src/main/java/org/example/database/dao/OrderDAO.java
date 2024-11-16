@@ -38,11 +38,11 @@ public class OrderDAO {
         session.close();
     }
 
-    public void delete(Product product) {
+    public void delete(Order order) {
         Session session = factory.openSession();
 
         session.getTransaction().begin();
-        session.delete(product);
+        session.delete(order);
         session.getTransaction().commit();
 
         session.close();
@@ -51,7 +51,7 @@ public class OrderDAO {
     // -------------------- blow here is our queries --------------------------
 
     // ** This query gets created in every single DAO you make **
-    public Order findById(Integer id) {
+    public Order findOrderById(Integer id) {
         String hqlQuery = "SELECT ord FROM Order ord WHERE ord.id = :orderId";
 
         Session session = factory.openSession();
