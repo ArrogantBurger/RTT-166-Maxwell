@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/module-306.iml" filepath="$PROJECT_DIR$/.idea/module-306.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sba_306/sba-core-java-hibernate-junit.iml" filepath="$PROJECT_DIR$/sba_306/sba-core-java-hibernate-junit.iml" />
     </modules>
   </component>
 </project>

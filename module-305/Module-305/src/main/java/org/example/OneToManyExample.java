@@ -25,7 +25,7 @@ public class OneToManyExample {
             System.out.println(c.getEmployee());
         }
 
-        // add a new custoemr to this employee using hibernate
+        // add a new customer to this employee using hibernate
         // first we create the new customer entity and fill it up with data
         Customer newCustomer = new Customer();
 
