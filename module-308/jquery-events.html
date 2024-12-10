@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <!-- jquery is always loaded first before anything else in the document -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Form Validation with JQuery</h1>
+
+    <button id="b1">Button 1</button>
+    <button id="b2">Button 2</button>
+</body>
+
+<script>
+    $("#b1").click(function () {
+        console.log("Button 1 was clicked.");
+    });
+    $("#b2").click(function () {
+        console.log("Button 2 was clicked.");
+    });
+
+    // this uses a CSS selector to get all buttons on the page and adds a listener to all of them
+    $("button").click(function(){
+        console.log("All button listener clicked");
+    });
+
+    // using raw javascript first we have to find the element
+    let h = document.getElementById("b1");
+    h.addEventListener("click", function(e) {
+        console.log("Button click event handled by javascript");
+        console.log(e.currentTarget === this);
+    });
+</script>
+
+</html>

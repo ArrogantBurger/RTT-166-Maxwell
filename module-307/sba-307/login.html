@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,7 +10,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
 </head>
-<body class="bg-default">
+<body class="bg-default" onload="login()">
+
+    <!-- Navbar template -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
         <div class="container-fluid">
           <a class="navbar-brand" href="#">Stirred Synesthesia</a>
@@ -34,23 +37,26 @@
             </ul>
         </div>
       </nav>
-
-    <form>
-        <div class="container">
+    
+    <!-- Login form -->
+    <form id="login-form">
+        <div class="container" style="max-width: 700px;">
             <label for="username"><b>Username</b></label>
-            <input type="text" placeholder="Enter Username" name="username" required>
+            <input type="text" placeholder="Enter Username" name="username" id="username" required>
             <label for="password"><b>Password</b></label>
-            <input type="password" placeholder="Enter Password" name="password" required>
+            <input type="password" placeholder="Enter Password" name="password" id="password" required>
             <button type="submit">Login</button>
             <label>
                 <input type="checkbox" checked="checked" name="remember"> Remember me
             </label>
         </div>
 
-        <div class="container">
+        <div class="container" style="max-width: 700px;">
             <button type="button" class="cancelloginbtn" onclick="location.href='index.html'">Cancel</button>
             <span class="password">Forgot <a href="#">password?</a></span>
         </div>
-</form> 
+    </form> 
+    
+    <script src="script.js"></script>
 </body>
 </html>

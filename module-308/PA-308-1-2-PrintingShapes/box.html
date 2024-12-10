@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Assignment - Printing Shapes</title>
+</head>
+<body>
+    <script type="text/javascript">
+
+        // prints a rectanguar shape
+        function Box(width, height) {
+            let string = "";
+            for (let j = 0; j < width; j++) {
+                    string += "*";
+            }
+            for (let i = 0; i < height; i++) {
+                console.log(string);
+            }
+        }
+
+        function Checkerboard(width, height) {
+            let stringA = "";
+            let stringB = "";
+            for (let j = 0; j < width; j++) {
+                if (j % 2 == 0) {
+                    stringA += "*";
+                    stringB += " ";
+                }
+                if (j % 2 == 1) {
+                    stringA += " ";
+                    stringB += "*";
+                }
+            }
+            for (let i = 0; i < height; i++) {
+                if (i % 2 == 0) {
+                    console.log(stringA);
+                }
+                if (i % 2 == 1) {
+                    console.log(stringB);
+                }
+            }
+        }
+
+        function Cross (size) {
+            for (let i = 0; i < size; i++) {
+                let string = "";
+                for (let j = 0; j < size; j++) {
+                    if (j == i || j == size - 1 - i) {
+                        string += "*";
+                    } else {
+                        string += " ";
+                    }
+                }
+                console.log(string);
+            }
+        }
+
+        function LowerTriangle(length) {
+            for (let i = 0; i < length; i++) {
+                let string = "";
+                for (let j = 0; j < length; j++) {
+                    if (j <= i) {
+                        string += "*";
+                    }
+                }
+                console.log(string);
+            }
+        }
+
+        // helper function to organize above requirements
+        function Main() {
+            console.log("Box function example: ");
+            Box(7, 4);
+            console.log("Checkerboard function example: ");
+            Checkerboard(11, 6);
+            console.log("Cross function example: ");
+            Cross(8);
+            console.log("Lower triangle function example: ");
+            LowerTriangle(6);
+        }
+
+        Main();
+    </script>
+</body>
+</html>

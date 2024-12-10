@@ -2,7 +2,7 @@
     background-color: #264d26;
 }
 
-.bg-home {
+#bg-home {
     background: linear-gradient(to bottom, rgb(54, 30, 8), rgb(161, 91, 0) 60%,rgb(255, 227, 191));
 }
 
@@ -24,7 +24,11 @@
     margin: 100px;
     text-align:center;
 }
-  
+
+h1 {
+  font-family: 'Courier New', Courier, monospace;
+}
+
   /* Full-width inputs */
   input[type=text], input[type=password] {
     width: 100%;
