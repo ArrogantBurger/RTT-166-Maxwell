@@ -1,6 +1,6 @@
 var validCredentials = [
-    { username: 'user', password: 'pass' },
-    { username: 'admin', password: 'admin'}
+    { username: 'user@gmail.com', password: 'pass' },
+    { username: 'admin@gmail.com', password: 'admin'}
 ];
 
 
@@ -43,7 +43,7 @@ function signUp() {
             console.log(username.value);
 
             if (credential.username === username.value) {
-            alert('Username already taken. Please select a different username.');
+            alert('Email already taken. Please select a different email.');
             return;
           } 
         } //search unable to find matching credentials, unique and valid username
@@ -58,7 +58,7 @@ function signUp() {
         validCredentials.push(validCredential);
 
 
-        alert('Valid username and password! New account created');
+        alert('Valid email and password! New account created');
         return;
     });
 }

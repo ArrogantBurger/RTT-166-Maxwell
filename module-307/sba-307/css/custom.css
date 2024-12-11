@@ -38,6 +38,10 @@ h1 {
     border: 1px solid #ccc;
     box-sizing: border-box;
   }
+
+  input[type=radio] {
+    margin-left: 8px;
+  }
   
   /* Set a style for all buttons */
   button {
