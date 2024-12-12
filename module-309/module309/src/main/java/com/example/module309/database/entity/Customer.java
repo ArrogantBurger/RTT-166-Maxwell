@@ -3,19 +3,16 @@ package com.example.module309.database.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.awt.print.Book;
-import java.util.List;
-
 @Entity
 @Table(name = "customers")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@EqualsAndHashCode
 public class Customer {
 
-    // To add a one-to-many relationship steps
+    // To add a one to many relationship steps
     // 1) Goto the example website and create the @OneToMany and @ManyToOne annoations
     // 2) In the entity with the foreign key mark that colum as insertable = false and updateable = false
     // 3) Add the @ToString.Exclude annotation to both sides
@@ -25,13 +22,9 @@ public class Customer {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "sales_rep_employee_id", nullable = false)
-    @ToString.Exclude
+    @JoinColumn(name = "sales_rep_employee_id")
+    @EqualsAndHashCode.Exclude
     private Employee employee;
-
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<Order> orders;
 
     // now that we have the @ManyToOne mapping using the same column name for the @JoinColumn
     // hibernate is confused as the colum sales_rep_employee_id is not ambigous to hibernate
@@ -73,4 +66,22 @@ public class Customer {
     @Column(name = "credit_limit", columnDefinition = "DECIMAL")
     private Double creditLimit;
 
+    @Override
+    public String toString() {
+        return "Customer{" +
+                "id=" + id +
+                ", salesRepEmployeeId=" + salesRepEmployeeId +
+                ", customerName='" + customerName + '\'' +
+                ", contactLastname='" + contactLastname + '\'' +
+                ", contactFirstname='" + contactFirstname + '\'' +
+                ", phone='" + phone + '\'' +
+                ", addressLine1='" + addressLine1 + '\'' +
+                ", addressLine2='" + addressLine2 + '\'' +
+                ", state='" + state + '\'' +
+                ", city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", country='" + country + '\'' +
+                ", creditLimit=" + creditLimit +
+                '}';
+    }
 }

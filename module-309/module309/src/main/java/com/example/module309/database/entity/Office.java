@@ -6,11 +6,8 @@ import jakarta.persistence.*;
 @Table(name = "offices")
 public class Office {
 
-    // the Id annotation tells hibernate that this is the primary key for the entity
     @Id
-    // this tells hibernate that the database will autoincrement the new ID for a new record in the database
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    // this defines the database column
     @Column(name = "id")
     private int id;
 
@@ -22,6 +19,7 @@ public class Office {
 
     @Column(name = "address_line1")
     private String addressLine1;
+
     @Column(name = "address_line2")
     private String addressLine2;
 
@@ -30,26 +28,28 @@ public class Office {
 
     @Column(name = "country")
     private String country;
+
     @Column(name = "postal_code")
     private String postalCode;
 
     @Column(name = "territory")
     private String territory;
 
-    Office(int id, String city, String phone, String address_line1, String address_line2, String state, String country, String postalCode, String territory) {
+
+    public Office() {
+
+    }
+
+    public Office(int id, String city, String phone, String addressLine1, String addressLine2, String state, String country, String postalCode, String territory) {
         this.id = id;
         this.city = city;
         this.phone = phone;
-        this.addressLine1 = address_line1;
-        this.addressLine2 = address_line2;
+        this.addressLine1 = addressLine1;
+        this.addressLine2 = addressLine2;
         this.state = state;
         this.country = country;
         this.postalCode = postalCode;
         this.territory = territory;
-    }
-
-    public Office() {
-
     }
 
     public int getId() {

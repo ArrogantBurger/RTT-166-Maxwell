@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "products")
@@ -19,10 +20,6 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private List<OrderDetails> orderdetails;
 
     @Column(name = "product_code")
     private String productCode;
@@ -51,6 +48,8 @@ public class Product {
     @Column(name = "msrp", columnDefinition = "DECIMAL")
     private double msrp;
 
-
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<OrderDetail> orderDetails;
 
 }

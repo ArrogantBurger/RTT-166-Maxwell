@@ -12,19 +12,26 @@ import java.util.List;
 @Controller
 public class IndexController {
 
+    // esentially spring boot has created the dao for us when it stated up and is already in memory all we have to do is
+    // autowire it and we can .. this is analagous to createing a new DAO in module 305
     @Autowired
     private CustomerDAO customerDao;
 
     @GetMapping("/index")
-
     public ModelAndView index() {
         ModelAndView response = new ModelAndView();
 
         // this is our index.jsp
         response.setViewName("index");
 
-        List<Customer> firstNames = customerDao.findByFirstName("Leslie");
+        List<Customer> firstNames = customerDao.findByFirstName("Alexander");
+        for ( Customer c : firstNames ) {
+            System.out.println(c.toString());
+        }
+
+        response.addObject("names", firstNames);
 
         return response;
     }
+
 }
