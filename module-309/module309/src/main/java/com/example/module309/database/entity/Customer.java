@@ -4,12 +4,12 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "customers")
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "customers")
 public class Customer {
 
     // To add a one to many relationship steps
@@ -21,7 +21,7 @@ public class Customer {
     @Column(name = "id")
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sales_rep_employee_id")
     @EqualsAndHashCode.Exclude
     private Employee employee;
