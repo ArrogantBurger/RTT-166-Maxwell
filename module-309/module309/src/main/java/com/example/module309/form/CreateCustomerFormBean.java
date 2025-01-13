@@ -53,5 +53,5 @@ public class CreateCustomerFormBean {
     @NotEmpty(message = "Country name is required.")
     private String country;
 
-
+    private Integer employeeId;
 }

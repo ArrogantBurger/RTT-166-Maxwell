@@ -4,6 +4,7 @@ import com.example.module309.database.dao.CustomerDAO;
 import com.example.module309.database.dao.EmployeeDAO;
 import com.example.module309.database.entity.Customer;
 import com.example.module309.database.entity.Employee;
+import com.example.module309.database.entity.User;
 import com.example.module309.form.CreateCustomerFormBean;
 import jakarta.validation.Valid;
 import lombok.extern.java.Log;
@@ -12,6 +13,7 @@ import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -37,6 +39,9 @@ import java.util.List;
 // log4j was the most commonly used logging library for a long time and you will probably encounter it
 //@Slf4j  <-  this is from lombok and all it does is line 40
 @Controller
+// by putting the @PreAuthorize on the top of the controller, it secures all methods in the controller
+// this annotation can also be used at the method level in a controller
+@PreAuthorize("hasAuthority('CUSTOMER')")
 public class CustomerController {
 
     // this is the old style logging before lombok and there is a very good chance you will see this in code somewhere
@@ -49,7 +54,6 @@ public class CustomerController {
 
     @Autowired
     private EmployeeDAO employeeDAO;
-
 
     @GetMapping("/customer/search")
     public ModelAndView search(@RequestParam(required = false) String firstName) {
@@ -76,6 +80,9 @@ public class CustomerController {
 
         // this is the page primer for create
         ModelAndView response = new ModelAndView();
+
+        List<Employee> employees = employeeDAO.findAllEmployees();
+        response.addObject("employeesKey", employees);
 
         LOG.debug("DEBUG LEVEL");
         LOG.info("INFO LEVEL");
@@ -107,8 +114,13 @@ public class CustomerController {
         form.setPhone(customer.getPhone());
         form.setCity(customer.getCity());
         form.setCountry(customer.getCountry());
+        form.setEmployeeId(customer.getSalesRepEmployeeId());
+        // alternate form.setEmployeeId(customer.getEmployee().getId());
 
         response.addObject("form", form);
+
+        List<Employee> employees = employeeDAO.findAllEmployees();
+        response.addObject("employeesKey", employees);
 
         return response;
     }
@@ -117,8 +129,6 @@ public class CustomerController {
     public ModelAndView createCustomerSubmit(@Valid CreateCustomerFormBean form, BindingResult bindingResult) {
         // this is called when the user clicks the submit button on the form
         ModelAndView response = new ModelAndView();
-
-
 
         // manually do some validations here in the controller
 
@@ -131,6 +141,9 @@ public class CustomerController {
             response.setViewName("customer/create");
             response.addObject("bindingResult", bindingResult);
             response.addObject("form", form);
+
+            List<Employee> employees = employeeDAO.findAllEmployees();
+            response.addObject("employeesKey", employees);
         } else {
             // when this is a create the id in the form will be null
             // when it is an edit the id in the form will be populated with the PK to edit
@@ -150,7 +163,7 @@ public class CustomerController {
             customer.setCity(form.getCity());
             customer.setCountry(form.getCountry());
 
-            Employee employee = employeeDAO.findById(1056);
+            Employee employee = employeeDAO.findById(form.getEmployeeId());
             customer.setEmployee(employee);
 
             customerDao.save(customer);
