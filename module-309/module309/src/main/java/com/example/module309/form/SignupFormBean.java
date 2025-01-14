@@ -1,5 +1,6 @@
 package com.example.module309.form;
 
+import com.example.module309.validation.EmailUnique;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import lombok.Setter;
 //@TwoFieldsAreEqual(fieldOneName = "confirmPassword", fieldTwoName = "password", message = "Password and Conform Password must be the same.")
 public class SignupFormBean {
 
+    @EmailUnique(message = "Username already exists.")
     @NotEmpty(message = "Username is required")
     private String username;
 

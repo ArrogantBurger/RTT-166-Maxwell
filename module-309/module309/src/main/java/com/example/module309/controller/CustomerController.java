@@ -6,6 +6,7 @@ import com.example.module309.database.entity.Customer;
 import com.example.module309.database.entity.Employee;
 import com.example.module309.database.entity.User;
 import com.example.module309.form.CreateCustomerFormBean;
+import com.example.module309.security.AuthenticatedUserService;
 import jakarta.validation.Valid;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
@@ -41,7 +42,7 @@ import java.util.List;
 @Controller
 // by putting the @PreAuthorize on the top of the controller, it secures all methods in the controller
 // this annotation can also be used at the method level in a controller
-@PreAuthorize("hasAuthority('CUSTOMER')")
+@PreAuthorize("hasAnyAuthority('CUSTOMER')")
 public class CustomerController {
 
     // this is the old style logging before lombok and there is a very good chance you will see this in code somewhere
@@ -54,6 +55,9 @@ public class CustomerController {
 
     @Autowired
     private EmployeeDAO employeeDAO;
+
+    @Autowired
+    private AuthenticatedUserService authenticatedUserService;
 
     @GetMapping("/customer/search")
     public ModelAndView search(@RequestParam(required = false) String firstName) {
@@ -90,6 +94,10 @@ public class CustomerController {
         LOG.error("ERROR LEVEL");
 
         response.setViewName("customer/create");
+
+        // this will get the entity from the database
+        User loggedInUser = authenticatedUserService.loadCurrentUser();
+        LOG.debug("!!!!!!!!!!!!!!!!!! " + loggedInUser.toString());
 
         return response;
     }
@@ -165,6 +173,11 @@ public class CustomerController {
 
             Employee employee = employeeDAO.findById(form.getEmployeeId());
             customer.setEmployee(employee);
+
+            User loggedInUser = authenticatedUserService.loadCurrentUser();
+            LOG.debug("!!!!!!!!!!!!!!!!!! " + loggedInUser.toString());
+            // we can't do this here because the customer doesn't have a user id on the table
+            // customer.setUser(loggedInUser);
 
             customerDao.save(customer);
 

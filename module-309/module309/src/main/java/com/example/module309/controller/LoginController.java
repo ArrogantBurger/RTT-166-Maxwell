@@ -1,9 +1,9 @@
 package com.example.module309.controller;
 
-
 import com.example.module309.database.dao.UserDAO;
 import com.example.module309.database.entity.User;
 import com.example.module309.form.SignupFormBean;
+import com.example.module309.security.AuthenticatedUserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.Value;
@@ -26,6 +26,9 @@ public class LoginController {
 
     @Autowired
     private UserDAO userDao;
+
+    @Autowired
+    private AuthenticatedUserService authenticatedUserService;
 
     // this get mapping is called by spring security when a secure resource is requested
     // needs to match the spring security configuration  .loginPage method
@@ -73,7 +76,7 @@ public class LoginController {
             userDao.save(user);
 
             // since this is a new user we can manually authenticate them for the first time
-            // authenticatedUserService.changeLoggedInUsername(session,form.getUsername(),form.getPassword());
+            authenticatedUserService.changeLoggedInUsername(session,form.getUsername(),form.getPassword());
 
             // redirect
             response.setViewName("redirect:/");
