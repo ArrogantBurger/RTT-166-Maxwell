@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -25,7 +26,7 @@ public class CreateCustomerFormBean {
 
     @Pattern(regexp = "[A-Za-z0-9\\s]+", message = "Company name must contain only letters, numbers, and spaces.")
     @Length(min = 5, message = "Company name longer than 5 characters.")
-    @Length(max = 10, message = "Company name must be less than 50 characters.")
+    @Length(max = 50, message = "Company name must be less than 50 characters.")
     @NotEmpty(message = "Company name is required.")
     private String companyName;
 
@@ -52,6 +53,8 @@ public class CreateCustomerFormBean {
     @Length(max = 50, message = "Country must be less than 50 characters.")
     @NotEmpty(message = "Country name is required.")
     private String country;
+
+    private MultipartFile upload;
 
     private Integer employeeId;
 }

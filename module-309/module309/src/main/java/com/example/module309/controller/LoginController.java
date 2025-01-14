@@ -1,7 +1,9 @@
 package com.example.module309.controller;
 
 import com.example.module309.database.dao.UserDAO;
+import com.example.module309.database.dao.UserRoleDAO;
 import com.example.module309.database.entity.User;
+import com.example.module309.database.entity.UserRole;
 import com.example.module309.form.SignupFormBean;
 import com.example.module309.security.AuthenticatedUserService;
 import jakarta.servlet.http.HttpSession;
@@ -26,6 +28,9 @@ public class LoginController {
 
     @Autowired
     private UserDAO userDao;
+
+    @Autowired
+    private UserRoleDAO userRoleDao;
 
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
@@ -74,6 +79,12 @@ public class LoginController {
             user.setPassword(encryptedPassword);
 
             userDao.save(user);
+
+            UserRole userRole = new UserRole();
+            userRole.setUserId(user.getId());
+            userRole.setRoleName("USER");
+
+            userRoleDao.save(userRole);
 
             // since this is a new user we can manually authenticate them for the first time
             authenticatedUserService.changeLoggedInUsername(session,form.getUsername(),form.getPassword());

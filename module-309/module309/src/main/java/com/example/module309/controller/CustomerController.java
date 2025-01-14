@@ -18,11 +18,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 
@@ -42,7 +43,7 @@ import java.util.List;
 @Controller
 // by putting the @PreAuthorize on the top of the controller, it secures all methods in the controller
 // this annotation can also be used at the method level in a controller
-@PreAuthorize("hasAnyAuthority('CUSTOMER')")
+@PreAuthorize("hasAuthority('CUSTOMER')")
 public class CustomerController {
 
     // this is the old style logging before lombok and there is a very good chance you will see this in code somewhere
@@ -62,6 +63,8 @@ public class CustomerController {
     @GetMapping("/customer/search")
     public ModelAndView search(@RequestParam(required = false) String firstName) {
         ModelAndView response = new ModelAndView();
+
+        // int x = 10 / 0;
 
         // /WEB-INF/jsp/customer/search.jsp
         response.setViewName("customer/search");
@@ -133,8 +136,10 @@ public class CustomerController {
         return response;
     }
 
-    @GetMapping("/customer/createCustomer")
-    public ModelAndView createCustomerSubmit(@Valid CreateCustomerFormBean form, BindingResult bindingResult) {
+    // These two are the same thing expressed 2 different ways and @PostMapping is a shortcut
+    // @RequestMapping(value = "/customer/createCustomer", method = RequestMethod.POST)
+    @PostMapping("/customer/createCustomer")
+    public ModelAndView createCustomerSubmit(@Valid CreateCustomerFormBean form, BindingResult bindingResult) throws Exception {
         // this is called when the user clicks the submit button on the form
         ModelAndView response = new ModelAndView();
 
@@ -171,6 +176,22 @@ public class CustomerController {
             customer.setCity(form.getCity());
             customer.setCountry(form.getCountry());
 
+            // here we are going to deal with saving the upload file to the disk
+            LOG.debug("uploaded filename = " + form.getUpload().getOriginalFilename() + " size = " + form.getUpload().getSize());
+            if (form.getUpload().getSize() != 0) {
+                // create a new file object that represents the location to save the upload to
+                // we know that intellij always assumes the current working directory is the root of the project so we are making
+                // a relative URL To the images folder within our project
+                String pathToSave = "./src/main/webapp/pub/images/" + form.getUpload().getOriginalFilename();
+                // this is a java utility that will read the file from the upload and write it to the file we created above
+                // will not take the entire file into memory
+                Files.copy(form.getUpload().getInputStream(), Paths.get(pathToSave), StandardCopyOption.REPLACE_EXISTING);
+                // this is the url that we will use to display the image in the browser
+                // it is an absolute URL based on the webapp folder as it would be used in the html
+                String url = "/pub/images/" + form.getUpload().getOriginalFilename();
+                customer.setImageUrl(url);
+            }
+
             Employee employee = employeeDAO.findById(form.getEmployeeId());
             customer.setEmployee(employee);
 
@@ -183,8 +204,10 @@ public class CustomerController {
 
             LOG.debug("============= SAVING CUSTOMER " + customer.getId());
 
-            // in either case ... create or edit .. I now want to redirect to the edit url
-            response.setViewName("redirect:/customer/edit/" + customer.getId() );
+            // in either case ... create or edit ... I now want to redirect to the edit url
+            // response.setViewName("redirect:/customer/edit/" + customer.getId() );
+
+            response.setViewName("customer/create");
 
         }
 
