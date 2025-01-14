@@ -7,9 +7,12 @@ import com.example.module309.database.entity.Employee;
 import com.example.module309.database.entity.User;
 import com.example.module309.form.CreateCustomerFormBean;
 import com.example.module309.security.AuthenticatedUserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import jakarta.validation.Valid;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.eclipse.tags.shaded.org.apache.xpath.operations.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +62,22 @@ public class CustomerController {
 
     @Autowired
     private AuthenticatedUserService authenticatedUserService;
+
+    @GetMapping("/customer/ajaxExample")
+    public ModelAndView ajaxExample() {
+        ModelAndView response = new ModelAndView();
+        response.setViewName("customer/ajaxExample");
+        return response;
+    }
+
+    @ResponseBody
+    @GetMapping("/customer/ajaxCall")
+    public String ajaxCall(@RequestParam Integer customerId) throws Exception {
+        Customer customer = customerDao.findById(customerId);
+
+        String json = new ObjectMapper().writeValueAsString(customer);
+        return json;
+    }
 
     @GetMapping("/customer/search")
     public ModelAndView search(@RequestParam(required = false) String firstName) {
@@ -144,7 +163,10 @@ public class CustomerController {
         ModelAndView response = new ModelAndView();
 
         // manually do some validations here in the controller
-
+        if (form.getCountry().startsWith("X")) {
+            // we are not allowing countries that start with X anymore
+            bindingResult.rejectValue("country", "X value country", "Country must not begin with X");
+        }
         LOG.debug(form.toString());
 
         if (bindingResult.hasErrors()) {
